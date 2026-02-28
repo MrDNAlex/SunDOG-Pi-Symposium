@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36811.4 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SunDOG.Symposium.Pi.Core", "SunDOG.Symposium.Pi.Core\SunDOG.Symposium.Pi.Core.csproj", "{A897FD75-75BB-40E1-81B6-04068BDB241E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SunDOG.Symposium.Pi.CLI", "SunDOG.Symposium.Pi.CLI\SunDOG.Symposium.Pi.CLI.csproj", "{9655D83F-33C1-4E4D-886C-05CFAF49FA74}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A897FD75-75BB-40E1-81B6-04068BDB241E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A897FD75-75BB-40E1-81B6-04068BDB241E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A897FD75-75BB-40E1-81B6-04068BDB241E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A897FD75-75BB-40E1-81B6-04068BDB241E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9655D83F-33C1-4E4D-886C-05CFAF49FA74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9655D83F-33C1-4E4D-886C-05CFAF49FA74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9655D83F-33C1-4E4D-886C-05CFAF49FA74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9655D83F-33C1-4E4D-886C-05CFAF49FA74}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DC3D383C-3F04-423D-B2FD-D1A6F93C09E4}
+	EndGlobalSection
+EndGlobal
