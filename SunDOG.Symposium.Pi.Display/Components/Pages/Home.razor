@@ -1,0 +1,103 @@
+﻿@page "/"
+@using Radzen.Blazor
+@using System.Timers
+@using SunDOG.Symposium.Pi.Core
+@rendermode InteractiveServer
+
+<PageTitle>Home</PageTitle>
+
+<div class="body">
+    <h1>SunDOG Power Generation Demo</h1>
+
+    <RadzenChart Style=background-color: gray">
+        <RadzenCategoryAxis FormatString="{0:0.0} s">
+            <RadzenAxisTitle Text="Time (s)" />
+        </RadzenCategoryAxis>
+
+        <RadzenValueAxis>
+            <RadzenAxisTitle Text="Current (mA)" />
+        </RadzenValueAxis>
+        <RadzenLineSeries Data="@Sensor1Readings" CategoryProperty="Time" ValueProperty="Value" Title="Sensor 1" />
+        <RadzenLineSeries Data="@Sensor2Readings" CategoryProperty="Time" ValueProperty="Value" Title="Sensor 2" />
+    </RadzenChart>
+</div>
+
+@code {
+
+    [Inject(Key = "Sensor1")]
+    public INA219Service Sensor1 { get; set; } = default!;
+
+    [Inject(Key = "Sensor2")]
+    public INA219Service Sensor2 { get; set; } = default!;
+
+    private List<DataPoint> Sensor1Readings = new();
+    private List<DataPoint> Sensor2Readings = new();
+
+    private Timer? _timer;
+    private Random _random = new();
+
+    private DateTime Start;
+
+    private double SecondsSinceStart ()
+    {
+        return (DateTime.Now - Start).TotalSeconds;
+    }
+
+    protected override void OnInitialized()
+    {
+        Start = DateTime.Now;
+
+
+        Sensor1Readings.Add(new DataPoint { Time = SecondsSinceStart(), Value = Sensor1.ReadCurrentMilli() });
+        Sensor2Readings.Add(new DataPoint { Time = SecondsSinceStart(), Value = Sensor2.ReadCurrentMilli() });
+
+        _timer = new Timer(500);
+        _timer.Elapsed += AddDataPoint;
+        _timer.AutoReset = true;
+        _timer.Enabled = true;
+    }
+
+    private void AddDataPoint(object? sender, ElapsedEventArgs e)
+    {
+        InvokeAsync(() =>
+        {
+            double time = SecondsSinceStart();
+
+            double reading1 = Sensor1.ReadCurrentMilli();
+            double reading2 = Sensor2.ReadCurrentMilli();
+
+            Console.WriteLine($"Sensor 1 : {reading1}");
+            Console.WriteLine($"Sensor 2 : {reading2}");
+
+
+            DataPoint newData1 = new DataPoint
+            {
+                Time = time,
+                Value = reading1
+            };
+
+            DataPoint newData2 = new DataPoint
+            {
+                Time = time,
+                Value = reading2
+            };
+
+            Sensor1Readings.Add(newData1);
+            Sensor2Readings.Add(newData2);
+
+            if (Sensor1Readings.Count > 100) Sensor1Readings.RemoveAt(0);
+            if (Sensor2Readings.Count > 100) Sensor2Readings.RemoveAt(0);
+
+            Sensor1Readings = Sensor1Readings.ToList();
+            Sensor2Readings = Sensor2Readings.ToList();
+
+            StateHasChanged();
+        });
+    }
+
+    public class DataPoint
+    {
+        public double Time { get; set; }
+        public double Value { get; set; }
+    }
+}

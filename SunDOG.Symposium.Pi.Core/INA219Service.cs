@@ -73,6 +73,9 @@ namespace SunDOG.Symposium.Pi.Core
         {
             double rawCurrent = _Sensor.ReadCurrent().Milliamperes;
 
+            if (rawCurrent > 6399.0)
+                return 0.0;
+
             return rawCurrent;
         }
 
