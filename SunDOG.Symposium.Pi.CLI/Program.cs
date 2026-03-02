@@ -6,9 +6,6 @@ namespace SunDOG.Symposium.Pi.CLI
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
-
-
             INA219Service sensor1 = new INA219Service(1);
             INA219Service sensor2 = new INA219Service(7);
 

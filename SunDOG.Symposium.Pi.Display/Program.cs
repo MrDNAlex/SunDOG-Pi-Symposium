@@ -14,6 +14,9 @@ namespace SunDOG.Symposium.Pi.Display
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
 
+            builder.Services.AddSingleton<SensorDataStats>();
+            builder.Services.AddHostedService<DataCollectionService>();
+            
             builder.Services.AddScoped<TooltipService>();
             builder.Services.AddScoped<DialogService>();
             builder.Services.AddScoped<NotificationService>();

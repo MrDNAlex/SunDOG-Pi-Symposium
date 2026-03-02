@@ -1,0 +1,88 @@
+﻿@using Radzen.Blazor
+@using System.Timers
+@using SunDOG.Symposium.Pi.Core
+@rendermode InteractiveServer
+@inject SensorDataStats DataStats
+
+<div class="body">
+	<h1>SunDOG Power Generation Demo</h1>
+
+	<RadzenChart Style=background-color: gray">
+		<RadzenCategoryAxis FormatString="{0:0.0} s">
+			<RadzenAxisTitle Text="Time (s)" />
+		</RadzenCategoryAxis>
+
+		<RadzenValueAxis>
+			<RadzenAxisTitle Text="Current (mA)" />
+		</RadzenValueAxis>
+		<RadzenLineSeries Data="@Sensor1Readings" CategoryProperty="Time" ValueProperty="Value" Title="Sensor 1" />
+		<RadzenLineSeries Data="@Sensor2Readings" CategoryProperty="Time" ValueProperty="Value" Title="Sensor 2" />
+	</RadzenChart>
+
+	<div>
+		<h3>5 Second Rolling Average</h3>
+		<h4>Sensor 1 : @S1_5SAvg</h4>
+		<h4>Sensor 2 : @S2_5SAvg</h4>
+
+		<h3>10 Second Rolling Average</h3>
+		<h4>Sensor 1 : @S1_10SAvg</h4>
+		<h4>Sensor 2 : @S2_10SAvg</h4>
+
+		<h3>30 Second Rolling Average</h3>
+		<h4>Sensor 1 : @S1_30SAvg</h4>
+		<h4>Sensor 2 : @S2_30SAvg</h4>
+	</div>
+</div>
+
+@code {
+
+	private Timer? _timer;
+
+	private List<DataPoint> Sensor1Readings = new();
+	private List<DataPoint> Sensor2Readings = new();
+
+	private string S1_5SAvg = "";
+	private string S1_10SAvg = "";
+	private string S1_30SAvg = "";
+
+	private string S2_5SAvg = "";
+	private string S2_10SAvg = "";
+	private string S2_30SAvg = "";
+
+	private int counter = 0;
+
+	protected override void OnInitialized()
+	{
+		_timer = new Timer(500);
+		_timer.Elapsed += AddDataPoint;
+		_timer.AutoReset = true;
+		_timer.Enabled = true;
+	}
+
+	private void AddDataPoint(object? sender, ElapsedEventArgs e)
+	{
+		InvokeAsync(() =>
+		{
+			Sensor1Readings = DataStats.Sensor1_120SAverage.History();
+			Sensor2Readings = DataStats.Sensor2_120SAverage.History();
+
+			S1_5SAvg = $"{DataStats.Sensor1_5SAverage.Average:F3} mA";
+			S1_10SAvg = $"{DataStats.Sensor1_10SAverage.Average:F3} mA";
+			S1_30SAvg = $"{DataStats.Sensor1_30SAverage.Average:F3} mA";
+
+			S2_5SAvg = $"{DataStats.Sensor2_5SAverage.Average:F3} mA";
+			S2_10SAvg = $"{DataStats.Sensor2_10SAverage.Average:F3} mA";
+			S2_30SAvg = $"{DataStats.Sensor2_30SAverage.Average:F3} mA";
+
+			counter++;
+
+			if (counter % 120 == 0)
+			{
+				GC.Collect(2, GCCollectionMode.Aggressive, true);
+				counter = 0;
+			}
+			
+			StateHasChanged();
+		});
+	}
+}
