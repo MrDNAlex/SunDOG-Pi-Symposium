@@ -8,15 +8,18 @@
 	<h1>SunDOG Power Generation Demo</h1>
 
 	<RadzenChart Style=background-color: gray">
-		<RadzenCategoryAxis FormatString="{0:0.0} s">
+		<RadzenCategoryAxis FormatString="{0:0.0} s" Padding="@Style.AxisPadding">
 			<RadzenAxisTitle Text="Time (s)" />
+			<RadzenGridLines Visible="true"
+							 Stroke="@Style.GridLineColor"
+							 StrokeDashArray="@Style.GridLineDashArray" />
 		</RadzenCategoryAxis>
 
 		<RadzenValueAxis>
 			<RadzenAxisTitle Text="Current (mA)" />
 		</RadzenValueAxis>
-		<RadzenLineSeries Data="@Sensor1Readings" CategoryProperty="Time" ValueProperty="Value" Title="Sensor 1" />
-		<RadzenLineSeries Data="@Sensor2Readings" CategoryProperty="Time" ValueProperty="Value" Title="Sensor 2" />
+		<RadzenLineSeries Data="@Sensor1Readings" CategoryProperty="Time" ValueProperty="Value" Title="Sensor 1" Stroke="@Style.PrimaryColor" StrokeWidth="@Style.LineWidth" />
+		<RadzenLineSeries Data="@Sensor2Readings" CategoryProperty="Time" ValueProperty="Value" Title="Sensor 2" Stroke="@Style.SecondaryColor" StrokeWidth="@Style.LineWidth" />
 	</RadzenChart>
 
 	<div>
@@ -35,6 +38,8 @@
 </div>
 
 @code {
+
+	private ChartStyle Style = new ChartStyle();
 
 	private Timer? _timer;
 
@@ -81,7 +86,7 @@
 				GC.Collect(2, GCCollectionMode.Aggressive, true);
 				counter = 0;
 			}
-			
+
 			StateHasChanged();
 		});
 	}
