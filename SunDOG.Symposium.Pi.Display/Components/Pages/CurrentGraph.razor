@@ -4,36 +4,112 @@
 @rendermode InteractiveServer
 @inject SensorDataStats DataStats
 
+<style>
+	html, body, .main, .content {
+		background-color: @Style.BackgroundColor !important;
+		margin: 0;
+		padding: 0;
+		min-height: 100vh;
+	}
+
+	.rz-chart {
+		background-color: transparent !important;
+	}
+
+	.body {
+		background-color: @Style.BackgroundColor;
+		min-height: 100vh;
+		width: 100%;
+		margin: 0;
+		padding: 2rem;
+	}
+
+	.stat-card {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		padding: 1rem 1.5rem;
+		background-color: white;
+		border: 2px solid @Style.DarkAccent; 
+		border-radius: 8px;
+		box-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+		min-width: 160px;
+	}
+
+	.stat-label {
+		font-size: 0.85rem;
+		color: @Style.DarkAccent;
+		margin-bottom: 0.4rem;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+
+	.stat-value {
+		font-size: 1.4rem;
+		font-weight: 700;
+		color: @Style.Black;
+	}
+
+		.stat-value.film {
+			color: @Style.LightAccent;
+		}
+
+	/* Grid Layout */
+	.stats-grid {
+		display: flex;
+		gap: 1.5rem;
+		flex-wrap: wrap;
+		margin-top: 3rem;
+		justify-content: center;
+	}
+</style>
+
 <div class="body">
 	<h1>SunDOG Power Generation Demo</h1>
 
-	<RadzenChart Style=background-color: gray">
+	<RadzenChart Style="background-color: transparent; width: 100%; height: 400px;">
 		<RadzenCategoryAxis FormatString="{0:0.0} s" Padding="@Style.AxisPadding">
 			<RadzenAxisTitle Text="Time (s)" />
-			<RadzenGridLines Visible="true"
-							 Stroke="@Style.GridLineColor"
-							 StrokeDashArray="@Style.GridLineDashArray" />
+			<RadzenGridLines Visible="false" />
 		</RadzenCategoryAxis>
 
 		<RadzenValueAxis>
 			<RadzenAxisTitle Text="Current (mA)" />
+			<RadzenGridLines Visible="false" />
 		</RadzenValueAxis>
-		<RadzenLineSeries Data="@Sensor1Readings" CategoryProperty="Time" ValueProperty="Value" Title="Base Panel" Stroke="@Style.PrimaryColor" StrokeWidth="@Style.LineWidth" />
-		<RadzenLineSeries Data="@Sensor2Readings" CategoryProperty="Time" ValueProperty="Value" Title="Panel with Film" Stroke="@Style.SecondaryColor" StrokeWidth="@Style.LineWidth" />
+
+		<RadzenLineSeries Data="@Sensor1Readings" CategoryProperty="Time" ValueProperty="Value" Title="Base Panel" Stroke="@Style.SecondaryColor" StrokeWidth="@Style.LineWidth" />
+		<RadzenLineSeries Data="@Sensor2Readings" CategoryProperty="Time" ValueProperty="Value" Title="Panel with Film" Stroke="@Style.PrimaryColor" StrokeWidth="@Style.LineWidth" />
 	</RadzenChart>
 
-	<div>
-		<h3>5 Second Rolling Average</h3>
-		<h4>Sensor 1 : @S1_5SAvg</h4>
-		<h4>Sensor 2 : @S2_5SAvg</h4>
+	<div class="stats-grid">
+		<div class="stat-card">
+			<span class="stat-label">5s Avg (Base)</span>
+			<span class="stat-value">@S1_5SAvg</span>
+		</div>
+		<div class="stat-card">
+			<span class="stat-label">5s Avg (Film)</span>
+			<span class="stat-value film">@S2_5SAvg</span>
+		</div>
 
-		<h3>10 Second Rolling Average</h3>
-		<h4>Sensor 1 : @S1_10SAvg</h4>
-		<h4>Sensor 2 : @S2_10SAvg</h4>
+		<div class="stat-card">
+			<span class="stat-label">10s Avg (Base)</span>
+			<span class="stat-value">@S1_10SAvg</span>
+		</div>
+		<div class="stat-card">
+			<span class="stat-label">10s Avg (Film)</span>
+			<span class="stat-value film">@S2_10SAvg</span>
+		</div>
 
-		<h3>30 Second Rolling Average</h3>
-		<h4>Sensor 1 : @S1_30SAvg</h4>
-		<h4>Sensor 2 : @S2_30SAvg</h4>
+		<div class="stat-card">
+			<span class="stat-label">30s Avg (Base)</span>
+			<span class="stat-value">@S1_30SAvg</span>
+		</div>
+		<div class="stat-card">
+			<span class="stat-label">30s Avg (Film)</span>
+			<span class="stat-value film">@S2_30SAvg</span>
+		</div>
 	</div>
 </div>
 

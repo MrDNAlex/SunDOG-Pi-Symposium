@@ -45,7 +45,7 @@ namespace SunDOG.Symposium.Pi.Display
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseStaticFiles();
             app.UseAntiforgery();

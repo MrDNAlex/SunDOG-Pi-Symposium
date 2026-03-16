@@ -2,11 +2,17 @@
 {
     public class ChartStyle
     {
+        // --- POSTER COLORS ---
+        public string BackgroundColor { get; set; } = "#F5F6FD";
+        public string Black { get; set; } = "#0E0A1F";
+        public string DarkAccent { get; set; } = "#493C53";
+        public string LightAccent { get; set; } = "#437F9B";
 
-        // --- COLORS ---
-        public string PrimaryColor { get; set; } = "#FBE3D6";
-        public string SecondaryColor { get; set; } = "#ff7f0e";
-        public string GridLineColor { get; set; } = "#0E0A1F";
+        // --- CHART MAPPING ---
+        public string PrimaryColor { get; set; } = "#437F9B";
+
+        public string SecondaryColor { get; set; } = "#0E0A1F";
+        public string GridLineColor { get; set; } = "#493C53";
         public string AxisTitleColor { get; set; } = "#0E0A1F";
 
         // --- STROKES ---
@@ -20,6 +26,5 @@
 
         // --- SPACING ---
         public int AxisPadding { get; set; } = 20;
-
     }
 }

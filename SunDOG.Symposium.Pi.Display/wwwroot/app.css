@@ -1,6 +1,6 @@
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background-color: gray;
+    background-color: #F5F6FD !important;
 }
 
 a, .btn-link {
