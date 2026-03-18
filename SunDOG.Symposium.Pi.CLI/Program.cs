@@ -25,7 +25,6 @@ namespace SunDOG.Symposium.Pi.CLI
 
                 Thread.Sleep(500);
             }
-           
         }
     }
 }
